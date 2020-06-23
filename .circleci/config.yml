@@ -51,9 +51,9 @@ jobs:
       - run: npm install
       - run: npm build
       - persist_to_workspace:
-          root: /tmp/workspace
-          paths:
-            - build/*
+            root: .
+            paths:
+                - .
       - add_ssh_keys:
           fingerprints:
           -   ${FINGERPRINTS}
