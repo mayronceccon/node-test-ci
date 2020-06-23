@@ -18,7 +18,6 @@ jobs:
   test:
     executor:
       name: node/default
-    working_directory: ~/test
     steps:
       - checkout
       - restore_cache:
@@ -32,7 +31,6 @@ jobs:
   build:
     executor:
       name: node/default
-    working_directory: ~/build
     steps:
       - checkout
       - restore_cache:
@@ -44,7 +42,6 @@ jobs:
           paths:
             - node_modules
   deploy:
-    working_directory: ~/build
     executor:
       name: node/default
     steps:
