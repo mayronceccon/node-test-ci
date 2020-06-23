@@ -12,6 +12,7 @@ jobs:
             - checkout
             - run: npm install
             - run: npm test
+  hold
 workflows:
     build-and-test:
       jobs:
