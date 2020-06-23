@@ -12,7 +12,7 @@ jobs:
             - checkout
             - run: npm install
             - run: npm test
-  hold
+  hold:
 workflows:
     build-and-test:
       jobs:
@@ -21,3 +21,5 @@ workflows:
       type: approval # requires that an in-app button be clicked by an appropriate member of the project to continue.
       requires:
        - build-and-test
+      jobs:
+        - hold
