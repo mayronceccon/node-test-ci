@@ -53,7 +53,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
           -   ${FINGERPRINTS}
-      - run: scp -oStrictHostKeyChecking=no -r $CIRCLE_WORKING_DIRECTORY/build/ ${SERVER}:/home/ubuntu/meu-app/
+      - run: scp -oStrictHostKeyChecking=no -r $CIRCLE_WORKING_DIRECTORY ${SERVER}:/home/ubuntu/meu-app/
       - sayhello:
           to: "Meu projeto"
 
