@@ -47,8 +47,10 @@ jobs:
     executor:
       name: node/default
     steps:
-      - run: npm install
-      - run: npm build
+      - add_ssh_keys:
+          fingerprints:
+          -   ${FINGERPRINTS}
+      - run: scp -r ~/build/ ${SERVER}:/home/ubuntu/meu-app/
       - sayhello:
           to: "Meu projeto"
 
