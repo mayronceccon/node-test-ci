@@ -1,8 +1,10 @@
 version: 2.1
+
 orbs:
   node: circleci/node@1.1.6
+
 jobs:
-  build-and-test:
+  test:
     executor:
       name: node/default
     steps:
@@ -12,14 +14,40 @@ jobs:
             - checkout
             - run: npm install
             - run: npm test
-  hold:
+  build:
+    executor:
+      name: node/default
+    steps:
+      - run: npm install
+      - run: npm build
+  deploy:
+    executor:
+      name: node/default
+    steps:
+      - run: npm install
+      - run: npm build
+
 workflows:
-    build-and-test:
-      jobs:
-        - build-and-test
-    hold:
-      type: approval # requires that an in-app button be clicked by an appropriate member of the project to continue.
-      requires:
-       - build-and-test
-      jobs:
-        - hold
+  build-test-and-deploy:
+    jobs:
+      - test
+      - build:
+          requires:
+            - test
+      - hold:
+          type: approval 
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master
+      - deploy:
+          requires:
+            - test
+            - build
+            - hold
+          filters:
+            branches:
+              only:
+                - master
