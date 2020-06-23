@@ -46,7 +46,6 @@ jobs:
   deploy:
     executor:
       name: node/default
-    working_directory: ~/build
     steps:
       - run: npm install
       - run: npm build
