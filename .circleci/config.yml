@@ -45,6 +45,7 @@ jobs:
     executor:
       name: node/default
     steps:
+      - checkout
       - run: npm install
       - run: npm build
       - persist_to_workspace:
