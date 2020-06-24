@@ -36,7 +36,7 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run: npm install
-      - run: npm run build
+      - run: npm run build:prod
       - save_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
@@ -47,7 +47,7 @@ jobs:
     steps:
       - checkout
       - run: npm install
-      - run: npm run build
+      - run: npm run build:prod
       - persist_to_workspace:
             root: .
             paths:
@@ -75,7 +75,7 @@ workflows:
 #           requires:
 #             - test
 #       - hold:
-#           type: approval 
+#           type: approval
 #           requires:
 #             - build
 #           filters:
