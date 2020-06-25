@@ -4,7 +4,7 @@ import Ope from './Ope';
 const app = express();
 
 app.get("/", (req, res) => {
-  res.json({ name: "Test", soma: new Ope().soma(20, 15) });
+  res.json({ name: "Test", soma: new Ope().soma(200, 15) });
 });
 
 app.listen(3000, () => {
