@@ -31,7 +31,7 @@ jobs:
           paths:
             - node_modules
       - save_cache:
-          key: build-{{ CIRCLE_BRANCH }}-{{ CIRCLE_SHA1 }}
+          key: build-${CIRCLE_BRANCH}-${CIRCLE_SHA1}
           paths:
             - build
   deploy:
@@ -42,7 +42,7 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - restore_cache:
-          key: build-{{ CIRCLE_BRANCH }}-{{ CIRCLE_SHA1 }}
+          key: build-${CIRCLE_BRANCH}-${CIRCLE_SHA1}
       - add_ssh_keys:
           fingerprints:
           -   ${FINGERPRINTS}
