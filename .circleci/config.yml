@@ -9,14 +9,12 @@ jobs:
       name: node/default
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
       - restore_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
+          key: dependency-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run: npm install
       - run: npm run test
       - save_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
+        key: dependency-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
   build:
@@ -24,18 +22,16 @@ jobs:
       name: node/default
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
       - restore_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
+          key: dependency-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run: npm install
       - run: npm run build:prod
       - save_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
+          key: dependency-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
       - save_cache:
-          key: build-${CIRCLE_BRANCH}-${CIRCLE_SHA1}
+          key: build-{{ .Branch }}-${CIRCLE_SHA1}
           paths:
             - build
   deploy:
@@ -43,18 +39,16 @@ jobs:
       name: node/default
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
       - restore_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
+          key: dependency-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - restore_cache:
-          key: build-${CIRCLE_BRANCH}-${CIRCLE_SHA1}
+          key: build-{{ .Branch }}-${CIRCLE_SHA1}
       - add_ssh_keys:
           fingerprints:
           -   ${FINGERPRINTS}
       - run: scp -oStrictHostKeyChecking=no -r $CIRCLE_WORKING_DIRECTORY/build/* ${SERVER}:/home/ubuntu/meu-app/
       - save_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
+          key: dependency-cache-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
 
