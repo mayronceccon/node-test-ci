@@ -9,6 +9,8 @@ jobs:
       name: node/default
     steps:
       - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run: npm install
@@ -22,6 +24,8 @@ jobs:
       name: node/default
     steps:
       - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run: npm install
@@ -39,6 +43,8 @@ jobs:
       name: node/default
     steps:
       - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - restore_cache:
@@ -46,7 +52,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
           -   ${FINGERPRINTS}
-      - run: scp -oStrictHostKeyChecking=no -r /home/circleci/project/build/* ${SERVER}:/home/ubuntu/meu-app/
+      - run: scp -oStrictHostKeyChecking=no -r $CIRCLE_WORKING_DIRECTORY/build/* ${SERVER}:/home/ubuntu/meu-app/
       - save_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
@@ -77,8 +83,3 @@ workflows:
             branches:
               only:
                 - master
-  #   - deploy:
-  #       filters:
-  #         branches:
-  #           only:
-  #             - master
