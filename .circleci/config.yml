@@ -3,7 +3,7 @@ version: 2.1
 executors:
   node-executor:
     docker:
-      - image: circleci/node@1.1.6
+      - image: circleci/node@12.0
     environment:
       DEBUG: True
       LOG_LEVEL: DEBUG
